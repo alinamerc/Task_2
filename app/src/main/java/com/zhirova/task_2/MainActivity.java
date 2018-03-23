@@ -2,6 +2,7 @@ package com.zhirova.task_2;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.ContactsContract;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -64,5 +65,6 @@ public class MainActivity extends AppCompatActivity {
             cur.close();
         }
     }
+
 
 }

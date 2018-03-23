@@ -1,19 +1,22 @@
 package com.zhirova.task_2.model;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Contact {
 
     private String id;
     private String name;
-    private String phone;
-    private String mail;
+    private List<String> phone;
+    private String email;
 
 
-    public Contact(String id, String name, String phone, String mail) {
+    public Contact(String id, String name, List<String> phone, String mail) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.mail = mail;
+        this.email = mail;
     }
 
 
@@ -37,23 +40,23 @@ public class Contact {
     }
 
 
-    public String getPhone() {
+    public List<String> getPhone() {
         return phone;
     }
 
 
-    public void setPhone(String phone) {
+    public void setPhone(List<String> phone) {
         this.phone = phone;
     }
 
 
-    public String getMail() {
-        return mail;
+    public String getEmail() {
+        return email;
     }
 
 
-    public void setMail(String mail) {
-        this.mail = mail;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
 

@@ -19,7 +19,7 @@
         android:tint="@color/backColorPressed" />
 
     <TextView
-        android:id="@+id/category_list_text_view"
+        android:id="@+id/contact_list_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
