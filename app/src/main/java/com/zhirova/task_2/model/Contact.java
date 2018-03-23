@@ -9,14 +9,14 @@ public class Contact {
     private String id;
     private String name;
     private List<String> phone;
-    private String email;
+    private List<String> email;
 
 
-    public Contact(String id, String name, List<String> phone, String mail) {
+    public Contact(String id, String name, List<String> phone, List<String> email) {
         this.id = id;
         this.name = name;
         this.phone = phone;
-        this.email = mail;
+        this.email = email;
     }
 
 
@@ -50,12 +50,12 @@ public class Contact {
     }
 
 
-    public String getEmail() {
+    public List<String> getEmail() {
         return email;
     }
 
 
-    public void setEmail(String email) {
+    public void setEmail(List<String> email) {
         this.email = email;
     }
 
