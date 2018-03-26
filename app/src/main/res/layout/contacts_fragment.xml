@@ -11,10 +11,14 @@
         android:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
+            android:foreground="@drawable/back_selected"
+            android:clickable="true"
+            android:focusable="true"
             android:id="@+id/recycler_view"
-            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"/>
 
     </FrameLayout>
 

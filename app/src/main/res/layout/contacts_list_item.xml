@@ -8,10 +8,11 @@
 
     <ImageView
         android:id="@+id/contact_list_image_view"
+        android:background="@drawable/image_selected"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="24dp"
         android:textAlignment="center"
         android:scaleX="2"
         android:scaleY="2"

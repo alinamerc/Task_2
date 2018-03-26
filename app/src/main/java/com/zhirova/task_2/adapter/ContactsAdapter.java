@@ -2,6 +2,7 @@ package com.zhirova.task_2.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +13,6 @@ import com.zhirova.task_2.model.Contact;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 
 public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.ContactsViewHolder> {
@@ -22,7 +22,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     private ClickListener clickListener;
 
 
-    public ContactsAdapter(Context context) {
+    public ContactsAdapter (Context context) {
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -66,7 +66,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public void onBindViewHolder(ContactsViewHolder holder, int position) {
         Contact curContact = contacts.get(position);
         holder.itemView.setTag(curContact);
-        holder.personName.setText(curContact.getName());
+        holder.contactName.setText(curContact.getName());
     }
 
 
@@ -76,19 +76,18 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     }
 
 
-     static class ContactsViewHolder extends RecyclerView.ViewHolder {
-        private TextView personName;
+    static class ContactsViewHolder extends RecyclerView.ViewHolder {
+        private TextView contactName;
 
         ContactsViewHolder(View view){
             super(view);
-            personName = view.findViewById(R.id.contact_list_text_view);
+            contactName = view.findViewById(R.id.contact_list_text_view);
         }
     }
 
 
     public interface ClickListener{
-        void onClick(Contact contact);
+        void onClick(Contact person);
     }
-
 
 }

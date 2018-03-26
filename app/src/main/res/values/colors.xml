@@ -10,6 +10,9 @@
     <color name="textColorDefault">#fa100000</color>
     <color name="textColorPressed">#ffffff</color>
 
+    <color name="imageColorDefault">#ffffff</color>
+    <color name="imageColorPressed">#ffffff</color>
+
     <color name="circleGreen">#0ea358</color>
 
 </resources>

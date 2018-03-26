@@ -39,12 +39,16 @@ public class ContactStore {
                 Log.d(TAG, "id = " + curContact.getId() +
                         ", name = " + curContact.getName());
 
-                for (int j = 0; j < curContact.getPhone().size(); j++) {
-                    Log.d(TAG, "phone: " + curContact.getPhone().get(j) + "\n");
+                if (curContact.getPhone() != null) {
+                    for (int j = 0; j < curContact.getPhone().size(); j++) {
+                        Log.d(TAG, "phone: " + curContact.getPhone().get(j) + "\n");
+                    }
                 }
 
-                for (int j = 0; j < curContact.getEmail().size(); j++) {
-                    Log.d(TAG, "email: " + curContact.getEmail().get(j) + "\n");
+                if (curContact.getEmail() != null) {
+                    for (int j = 0; j < curContact.getEmail().size(); j++) {
+                        Log.d(TAG, "email: " + curContact.getEmail().get(j) + "\n");
+                    }
                 }
             }
         }
