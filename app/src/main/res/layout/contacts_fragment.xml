@@ -1,25 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.zhirova.task_2.ContactsFragment">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
-        <android.support.v7.widget.RecyclerView
-            android:foreground="@drawable/back_selected"
-            android:clickable="true"
-            android:focusable="true"
-            android:id="@+id/recycler_view"
-            app:layoutManager="LinearLayoutManager"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"/>
+            android:background="@color/globalBack">
 
-    </FrameLayout>
+            <android.support.v7.widget.RecyclerView
+                android:clickable="true"
+                android:focusable="true"
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"/>
 
-</android.support.constraint.ConstraintLayout>
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:indeterminate="true"
+                android:indeterminateTintMode="src_atop"
+                android:indeterminateTint="@color/progressBar"
+                android:scaleX="2"
+                android:scaleY="2">
+            </ProgressBar>
+
+            <TextView
+                android:id="@+id/info_text_view"
+                android:visibility="invisible"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="@drawable/text_selected"
+                android:text="@string/no_contacts"
+                android:textSize="30dp"/>
+
+        </FrameLayout>
+
+</layout>

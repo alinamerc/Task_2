@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.zhirova.task_2.adapter.ContactsAdapter;
+
 public class MainActivity extends AppCompatActivity {
 
     private FragmentManager fragmentManager;
@@ -28,6 +30,5 @@ public class MainActivity extends AppCompatActivity {
             fragmentTransaction.commit();
         }
     }
-
 
 }

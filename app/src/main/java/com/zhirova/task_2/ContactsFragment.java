@@ -1,27 +1,34 @@
 package com.zhirova.task_2;
 
+import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.zhirova.task_2.adapter.ContactsAdapter;
+import com.zhirova.task_2.databinding.ContactsFragmentBinding;
 import com.zhirova.task_2.model.Contact;
-import com.zhirova.task_2.model.ContactStore;
+import com.zhirova.task_2.model.ContactReaderTask;
 
 import java.util.Collections;
 import java.util.List;
 
+
 public class ContactsFragment extends Fragment implements ContactsAdapter.ClickListener{
 
     private final String TAG = "CONTACTS_FRAGMENT";
-    private ContactsAdapter adapter;
     private RecyclerView recyclerView;
-    private ContactStore contactStore;
+    private TextView infoTextView;
+    private ContactReaderTask contactReaderTask;
+
+    public ProgressBar progressBar;
 
 
     @Nullable
@@ -34,28 +41,49 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        recyclerView = getView().findViewById(R.id.recycler_view);
-        recyclerViewConnection();
+
+        ContactsFragmentBinding binding = DataBindingUtil.setContentView(getActivity(), R.layout.activity_main);
+        recyclerView = binding.recyclerView;
+        binding.infoTextView.setText("!!!!!!!!!!!");
+        progressBar = binding.progressBar;
     }
 
 
-    private void recyclerViewConnection() {
-        contactStore = ContactStore.getInstance(getActivity());
-        List<Contact> contacts = contactStore.getContacts();
+    @Override
+    public void onResume() {
+        super.onResume();
+        contactReaderTask = new ContactReaderTask(this);
+        contactReaderTask.execute();
+    }
 
-        adapter = new ContactsAdapter(getContext());
-        adapter.setClickListener(this);
-        adapter.setData(null);
-        recyclerView.setAdapter(adapter);
 
-        Collections.sort(contacts, (contact1, contact2) -> contact1.getName().compareToIgnoreCase(contact2.getName()));
-        adapter.setData(contacts);
+    @Override
+    public void onPause() {
+        super.onPause();
+        contactReaderTask.cancel(true);
+    }
+
+
+    public void dataBinding(List<Contact> contacts){
+        if (contacts.size() == 0) {
+            infoTextView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.INVISIBLE);
+
+        } else {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            recyclerView.setLayoutManager(layoutManager);
+
+            ContactsAdapter adapter = new ContactsAdapter(getContext());
+            adapter.setClickListener(this);
+            recyclerView.setAdapter(adapter);
+            Collections.sort(contacts, (contact1, contact2) -> contact1.getName().compareToIgnoreCase(contact2.getName()));
+            adapter.setData(contacts);
+        }
     }
 
 
     @Override
     public void onClick(Contact contact) {
-
     }
 
 

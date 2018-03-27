@@ -1,6 +1,9 @@
 package com.zhirova.task_2.model;
 
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.ArrayList;
 import java.util.List;
 

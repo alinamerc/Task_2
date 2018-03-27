@@ -87,7 +87,7 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
 
     public interface ClickListener{
-        void onClick(Contact person);
+        void onClick(Contact contact);
     }
 
 }
