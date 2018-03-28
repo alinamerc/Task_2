@@ -36,10 +36,11 @@ public class ContactReaderTask extends AsyncTask<Void, Integer, List<Contact>> {
     @Override
     protected List<Contact> doInBackground(Void... values) {
         List<Contact> contacts = getContactsBindInfo();
+        //print(contacts);
         try {
             int counter = 0;
             for (int i = 0; i < 5; i++) {
-                TimeUnit.SECONDS.sleep(1);
+                TimeUnit.SECONDS.sleep(0);
                 publishProgress(++counter);
                 if (isCancelled()) { return null; }
             }
@@ -76,13 +77,13 @@ public class ContactReaderTask extends AsyncTask<Void, Integer, List<Contact>> {
         for (String contactId: contacts.keySet()) {
             Contact curContact = new Contact(contactId, contacts.get(contactId), null, null);
             for (String contactIdInPhones: phones.keySet()) {
-                if (contactId == contactIdInPhones) {
+                if (contactId.equals(contactIdInPhones)) {
                     curContact.setPhone(phones.get(contactIdInPhones));
                 }
             }
 
             for (String contactIdInEmails: emails.keySet()) {
-                if (contactId == contactIdInEmails) {
+                if (contactId.equals(contactIdInEmails)) {
                     curContact.setEmail(emails.get(contactIdInEmails));
                 }
             }
@@ -141,13 +142,27 @@ public class ContactReaderTask extends AsyncTask<Void, Integer, List<Contact>> {
             if (phoneCursor != null & phoneCursor.getCount() > 0) {
                 int idIndex = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.CONTACT_ID);
                 int phoneIndex = phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                List<String> allPhones = new ArrayList<>();
 
                 while (phoneCursor.moveToNext()) {
                     String id = phoneCursor.getString(idIndex);
                     String phone = phoneCursor.getString(phoneIndex);
-                    allPhones.add(phone);
-                    phones.put(id, allPhones);
+
+                    boolean isExistContact = false;
+                    for (String contactId: phones.keySet()) {
+                        if (contactId.equals(id)) {
+                            isExistContact = true;
+                            break;
+                        }
+                    }
+
+                    if (isExistContact) {
+                        phones.get(id).add(phone);
+                    }
+                    else {
+                        List<String> allPhones = new ArrayList<>();
+                        allPhones.add(phone);
+                        phones.put(id, allPhones);
+                    }
                 }
             }
         } catch (Exception e) {
@@ -177,13 +192,27 @@ public class ContactReaderTask extends AsyncTask<Void, Integer, List<Contact>> {
             if (emailCursor != null & emailCursor.getCount() > 0) {
                 int idIndex = emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.CONTACT_ID);
                 int emailIndex = emailCursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS);
-                List<String> allEmails = new ArrayList<>();
 
                 while (emailCursor.moveToNext()) {
                     String id = emailCursor.getString(idIndex);
                     String email = emailCursor.getString(emailIndex);
-                    allEmails.add(email);
-                    emails.put(id, allEmails);
+
+                    boolean isExistContact = false;
+                    for (String contactId: emails.keySet()) {
+                        if (contactId.equals(id)) {
+                            isExistContact = true;
+                            break;
+                        }
+                    }
+
+                    if (isExistContact) {
+                        emails.get(id).add(email);
+                    }
+                    else {
+                        List<String> allEmails = new ArrayList<>();
+                        allEmails.add(email);
+                        emails.put(id, allEmails);
+                    }
                 }
             }
         } catch (Exception e) {

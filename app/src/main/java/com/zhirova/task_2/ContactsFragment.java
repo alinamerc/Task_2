@@ -4,6 +4,8 @@ import android.databinding.DataBindingUtil;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -78,6 +80,13 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
 
     @Override
     public void onClick(Contact contact) {
+        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+        DetailFragment curFragment = new DetailFragment();
+
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.container, curFragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
     }
 
 
