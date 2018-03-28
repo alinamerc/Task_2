@@ -24,11 +24,9 @@ import java.util.List;
 public class ContactsFragment extends Fragment implements ContactsAdapter.ClickListener{
 
     private final String TAG = "CONTACTS_FRAGMENT";
-    private RecyclerView recyclerView;
-    private TextView infoTextView;
     private ContactReaderTask contactReaderTask;
 
-    public ProgressBar progressBar;
+    public ContactsFragmentBinding binding;
 
 
     @Nullable
@@ -41,11 +39,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        ContactsFragmentBinding binding = DataBindingUtil.setContentView(getActivity(), R.layout.activity_main);
-        recyclerView = binding.recyclerView;
-        binding.infoTextView.setText("!!!!!!!!!!!");
-        progressBar = binding.progressBar;
+        binding = DataBindingUtil.setContentView(getActivity(), R.layout.contacts_fragment);
     }
 
 
@@ -66,16 +60,16 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
 
     public void dataBinding(List<Contact> contacts){
         if (contacts.size() == 0) {
-            infoTextView.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.INVISIBLE);
+            binding.infoTextView.setVisibility(View.VISIBLE);
+            binding.recyclerView.setVisibility(View.INVISIBLE);
 
         } else {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            recyclerView.setLayoutManager(layoutManager);
+            binding.recyclerView.setLayoutManager(layoutManager);
 
             ContactsAdapter adapter = new ContactsAdapter(getContext());
             adapter.setClickListener(this);
-            recyclerView.setAdapter(adapter);
+            binding.recyclerView.setAdapter(adapter);
             Collections.sort(contacts, (contact1, contact2) -> contact1.getName().compareToIgnoreCase(contact2.getName()));
             adapter.setData(contacts);
         }
