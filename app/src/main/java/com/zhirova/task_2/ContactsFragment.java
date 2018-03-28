@@ -34,14 +34,16 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.contacts_fragment, container, false);
+        binding = DataBindingUtil.inflate(
+                inflater, R.layout.contacts_fragment, container, false);
+        View view = binding.getRoot();
+        return view;
     }
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        binding = DataBindingUtil.setContentView(getActivity(), R.layout.contacts_fragment);
     }
 
 

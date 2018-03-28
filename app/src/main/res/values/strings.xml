@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Contacts</string>
     <string name="no_contacts">There is no any contacts!</string>
-    <string name="phones">phones</string>
+    <string name="phones">Phones:</string>
 </resources>
