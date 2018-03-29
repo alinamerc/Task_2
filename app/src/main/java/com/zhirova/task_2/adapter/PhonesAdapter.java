@@ -18,8 +18,8 @@ public class PhonesAdapter extends RecyclerView.Adapter<PhonesAdapter.PhonesView
 
     private final LayoutInflater inflater;
     private List<String> phones = new ArrayList<>();
-    private PhonesAdapter.ClickListenerOnCall clickListenerCall;
-    private PhonesAdapter.ClickListenerOnSms clickListenerSms;
+    private ClickListenerOnCall clickListenerCall;
+    private ClickListenerOnSms clickListenerSms;
 
 
     public PhonesAdapter (Context context) {
@@ -32,12 +32,12 @@ public class PhonesAdapter extends RecyclerView.Adapter<PhonesAdapter.PhonesView
     }
 
 
-    public void setClickListenerOnCall(PhonesAdapter.ClickListenerOnCall clickListenerCall) {
+    public void setClickListenerOnCall(ClickListenerOnCall clickListenerCall) {
         this.clickListenerCall = clickListenerCall;
     }
 
 
-    public void setClickListenerOnSms(PhonesAdapter.ClickListenerOnSms clickListenerSms) {
+    public void setClickListenerOnSms(ClickListenerOnSms clickListenerSms) {
         this.clickListenerSms = clickListenerSms;
     }
 

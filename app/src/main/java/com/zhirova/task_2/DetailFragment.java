@@ -11,17 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zhirova.task_2.adapter.EmailsAdapter;
 import com.zhirova.task_2.adapter.PhonesAdapter;
 import com.zhirova.task_2.model.Contact;
 
 import java.util.List;
 
-public class DetailFragment extends Fragment implements PhonesAdapter.ClickListenerOnCall, PhonesAdapter.ClickListenerOnSms {
+public class DetailFragment extends Fragment implements PhonesAdapter.ClickListenerOnCall,
+        PhonesAdapter.ClickListenerOnSms, EmailsAdapter.ClickListenerOnMail {
 
     private final String TAG = "DETAIL_FRAGMENT";
     private TextView nameContact;
     private RecyclerView phonesRecyclerView;
-    private PhonesAdapter phonesAdapter;
+    private RecyclerView emailsRecyclerView;
 
     public Contact contactInfo;
 
@@ -37,13 +39,16 @@ public class DetailFragment extends Fragment implements PhonesAdapter.ClickListe
         super.onViewCreated(view, savedInstanceState);
         initUI();
         phonesConnection();
+        emailsConnection();
     }
 
 
     private void initUI() {
         nameContact = getActivity().findViewById(R.id.detail_name_text_view);
         nameContact.setText(contactInfo.getName());
-        phonesRecyclerView = getView().findViewById(R.id.detail_recycler_view_phones);
+
+        phonesRecyclerView = getActivity().findViewById(R.id.detail_recycler_view_phones);
+        emailsRecyclerView = getActivity().findViewById(R.id.detail_recycler_view_emails);
     }
 
 
@@ -54,12 +59,28 @@ public class DetailFragment extends Fragment implements PhonesAdapter.ClickListe
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
             phonesRecyclerView.setLayoutManager(layoutManager);
 
-            phonesAdapter = new PhonesAdapter(getContext());
+            PhonesAdapter phonesAdapter = new PhonesAdapter(getContext());
             phonesAdapter.setClickListenerOnCall(this);
             phonesAdapter.setClickListenerOnSms(this);
 
             phonesRecyclerView.setAdapter(phonesAdapter);
             phonesAdapter.setData(phones);
+        }
+    }
+
+
+    private void emailsConnection() {
+        List<String> emails = contactInfo.getEmail();
+
+        if (emails != null) {
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+            emailsRecyclerView.setLayoutManager(layoutManager);
+
+            EmailsAdapter emailsAdapter = new EmailsAdapter(getContext());
+            emailsAdapter.setClickListenerOnMail(this);
+
+            emailsRecyclerView.setAdapter(emailsAdapter);
+            emailsAdapter.setData(emails);
         }
     }
 
@@ -73,6 +94,12 @@ public class DetailFragment extends Fragment implements PhonesAdapter.ClickListe
     @Override
     public void onClickSms(String phone) {
         Log.d(TAG, "onClickSms");
+    }
+
+
+    @Override
+    public void onClickMail(String email) {
+        Log.d(TAG, "onClickMail");
     }
 
 
