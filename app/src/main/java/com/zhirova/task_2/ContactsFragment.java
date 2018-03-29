@@ -7,12 +7,9 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.zhirova.task_2.adapter.ContactsAdapter;
 import com.zhirova.task_2.databinding.ContactsFragmentBinding;
@@ -65,15 +62,15 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     public void dataBinding(List<Contact> contacts){
         if (contacts.size() == 0) {
             binding.infoTextView.setVisibility(View.VISIBLE);
-            binding.recyclerView.setVisibility(View.INVISIBLE);
+            binding.recyclerViewContacts.setVisibility(View.INVISIBLE);
 
         } else {
             LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            binding.recyclerView.setLayoutManager(layoutManager);
+            binding.recyclerViewContacts.setLayoutManager(layoutManager);
 
             ContactsAdapter adapter = new ContactsAdapter(getContext());
             adapter.setClickListener(this);
-            binding.recyclerView.setAdapter(adapter);
+            binding.recyclerViewContacts.setAdapter(adapter);
             Collections.sort(contacts, (contact1, contact2) -> contact1.getName().compareToIgnoreCase(contact2.getName()));
             adapter.setData(contacts);
         }
@@ -84,6 +81,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     public void onClick(Contact contact) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         DetailFragment curFragment = new DetailFragment();
+        curFragment.contactInfo = contact;
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, curFragment);

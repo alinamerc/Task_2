@@ -38,16 +38,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     }
 
 
-    public int positionById(String id){
-        for(int i = 0; i < contacts.size(); i++){
-            if (contacts.get(i).getId().equals(id)) {
-                return i;
-            }
-        }
-        return -1;
-    }
-
-
     @Override
     public ContactsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = inflater.inflate(R.layout.contacts_list_item, parent, false);
