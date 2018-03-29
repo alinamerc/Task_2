@@ -46,9 +46,9 @@
             android:textSize="24dp"/>
 
         <android.support.v7.widget.RecyclerView
-            android:clickable="true"
-            android:focusable="true"
             android:id="@+id/detail_recycler_view_phones"
+            android:clickable="false"
+            android:focusable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/detail_phone_title_text_view"
@@ -68,9 +68,9 @@
             android:textSize="24dp"/>
 
         <android.support.v7.widget.RecyclerView
-            android:clickable="true"
-            android:focusable="true"
             android:id="@+id/detail_recycler_view_emails"
+            android:clickable="false"
+            android:focusable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/detail_email_title_text_view"

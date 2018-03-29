@@ -1,10 +1,14 @@
 package com.zhirova.task_2;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.net.Uri;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -87,19 +91,25 @@ public class DetailFragment extends Fragment implements PhonesAdapter.ClickListe
 
     @Override
     public void onClickCall(String phone) {
-        Log.d(TAG, "onClickCall");
+        String destination = "tel:" + phone;
+        Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(destination));
+        startActivity(callIntent);
     }
 
 
     @Override
     public void onClickSms(String phone) {
-        Log.d(TAG, "onClickSms");
+        String destination = "sms:" + phone;
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(destination));
+        startActivity(smsIntent);
     }
 
 
     @Override
     public void onClickMail(String email) {
-        Log.d(TAG, "onClickMail");
+        String destination = "mailto:" + email;
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse(destination));
+        startActivity(Intent.createChooser(emailIntent, "Chooser Title"));
     }
 
 

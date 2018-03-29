@@ -54,7 +54,7 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailsView
     @Override
     public void onBindViewHolder(EmailsViewHolder holder, int position) {
         String curEmail = emails.get(position);
-        holder.itemView.setTag(curEmail);
+        holder.emailButton.setTag(curEmail);
         holder.emailText.setText(curEmail);
     }
 

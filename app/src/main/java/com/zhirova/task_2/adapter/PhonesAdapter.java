@@ -49,6 +49,7 @@ public class PhonesAdapter extends RecyclerView.Adapter<PhonesAdapter.PhonesView
 
         holder.callButton.setOnClickListener(v -> {
             if (clickListenerCall != null){
+
                 clickListenerCall.onClickCall((String) v.getTag());
             }
         });
@@ -66,7 +67,8 @@ public class PhonesAdapter extends RecyclerView.Adapter<PhonesAdapter.PhonesView
     @Override
     public void onBindViewHolder(PhonesViewHolder holder, int position) {
         String curPhone = phones.get(position);
-        holder.itemView.setTag(curPhone);
+        holder.callButton.setTag(curPhone);
+        holder.smsButton.setTag(curPhone);
         holder.phoneText.setText(curPhone);
     }
 
