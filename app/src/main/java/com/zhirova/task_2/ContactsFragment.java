@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -44,6 +45,19 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initAdapter();
+        initUI();
+    }
+
+
+    private void initUI() {
+        if (contacts == null){
+            binding.progressBar.setVisibility(View.VISIBLE);
+            binding.infoTextView.setVisibility(View.GONE);
+            binding.recyclerViewContacts.setVisibility(View.VISIBLE);
+        }
+        else {
+            dataBinding(contacts);
+        }
     }
 
 
