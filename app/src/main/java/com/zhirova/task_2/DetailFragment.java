@@ -24,12 +24,25 @@ import java.util.List;
 public class DetailFragment extends Fragment implements PhonesAdapter.ClickListenerOnCall,
         PhonesAdapter.ClickListenerOnSms, EmailsAdapter.ClickListenerOnMail {
 
+    private static final String BUNDLE_KEY = "CONTACT_ID";
     private final String TAG = "DETAIL_FRAGMENT";
+
     private TextView nameContact;
     private RecyclerView phonesRecyclerView;
     private RecyclerView emailsRecyclerView;
 
-    public Contact contactInfo;
+    private Contact curContact;
+    private PhonesAdapter phonesAdapter;
+    private EmailsAdapter emailsAdapter;
+
+
+    public static DetailFragment create(Contact contact){
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(BUNDLE_KEY, contact);
+        DetailFragment detailFragment = new DetailFragment();
+        detailFragment.setArguments(bundle);
+        return detailFragment;
+    }
 
 
     @Override
@@ -41,7 +54,12 @@ public class DetailFragment extends Fragment implements PhonesAdapter.ClickListe
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        Bundle bundle = getArguments();
+        curContact = bundle.getParcelable(BUNDLE_KEY);
+
         initUI();
+        initAdapters();
         phonesConnection();
         emailsConnection();
     }
@@ -49,43 +67,37 @@ public class DetailFragment extends Fragment implements PhonesAdapter.ClickListe
 
     private void initUI() {
         nameContact = getActivity().findViewById(R.id.detail_name_text_view);
-        nameContact.setText(contactInfo.getName());
-
+        nameContact.setText(curContact.getName());
         phonesRecyclerView = getActivity().findViewById(R.id.detail_recycler_view_phones);
         emailsRecyclerView = getActivity().findViewById(R.id.detail_recycler_view_emails);
     }
 
 
+    private void initAdapters() {
+        phonesAdapter = new PhonesAdapter(getContext());
+        phonesAdapter.setClickListenerOnCall(this);
+        phonesAdapter.setClickListenerOnSms(this);
+        phonesRecyclerView.setAdapter(phonesAdapter);
+        LinearLayoutManager phonesLayoutManager = new LinearLayoutManager(getContext());
+        phonesRecyclerView.setLayoutManager(phonesLayoutManager);
+
+        emailsAdapter = new EmailsAdapter(getContext());
+        emailsAdapter.setClickListenerOnMail(this);
+        emailsRecyclerView.setAdapter(emailsAdapter);
+        LinearLayoutManager emailsLayoutManager = new LinearLayoutManager(getContext());
+        emailsRecyclerView.setLayoutManager(emailsLayoutManager);
+    }
+
+
     private void phonesConnection() {
-        List<String> phones = contactInfo.getPhone();
-
-        if (phones != null) {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            phonesRecyclerView.setLayoutManager(layoutManager);
-
-            PhonesAdapter phonesAdapter = new PhonesAdapter(getContext());
-            phonesAdapter.setClickListenerOnCall(this);
-            phonesAdapter.setClickListenerOnSms(this);
-
-            phonesRecyclerView.setAdapter(phonesAdapter);
-            phonesAdapter.setData(phones);
-        }
+        List<String> phones = curContact.getPhones();
+        phonesAdapter.setData(phones);
     }
 
 
     private void emailsConnection() {
-        List<String> emails = contactInfo.getEmail();
-
-        if (emails != null) {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            emailsRecyclerView.setLayoutManager(layoutManager);
-
-            EmailsAdapter emailsAdapter = new EmailsAdapter(getContext());
-            emailsAdapter.setClickListenerOnMail(this);
-
-            emailsRecyclerView.setAdapter(emailsAdapter);
-            emailsAdapter.setData(emails);
-        }
+        List<String> emails = curContact.getEmails();
+        emailsAdapter.setData(emails);
     }
 
 

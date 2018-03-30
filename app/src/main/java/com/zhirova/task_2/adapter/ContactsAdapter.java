@@ -28,8 +28,11 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
 
 
     public void setData(List<Contact> contacts){
-        this.contacts = contacts;
-        //notifyDataSetChanged();
+        this.contacts.clear();
+        if (contacts != null){
+            this.contacts.addAll(contacts);
+        }
+        notifyDataSetChanged();
     }
 
 
@@ -79,5 +82,6 @@ public class ContactsAdapter extends RecyclerView.Adapter<ContactsAdapter.Contac
     public interface ClickListener{
         void onClick(Contact contact);
     }
+
 
 }

@@ -28,7 +28,11 @@ public class PhonesAdapter extends RecyclerView.Adapter<PhonesAdapter.PhonesView
 
 
     public void setData(List<String> phones){
-        this.phones = phones;
+        this.phones.clear();
+        if (phones != null){
+            this.phones.addAll(phones);
+        }
+        notifyDataSetChanged();
     }
 
 
@@ -49,7 +53,6 @@ public class PhonesAdapter extends RecyclerView.Adapter<PhonesAdapter.PhonesView
 
         holder.callButton.setOnClickListener(v -> {
             if (clickListenerCall != null){
-
                 clickListenerCall.onClickCall((String) v.getTag());
             }
         });

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".DetailFragment">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
         android:id="@+id/detail"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,9 +14,9 @@
 
         <ImageView
             android:id="@+id/detail_face_image_view"
-            android:background="@drawable/image_selected"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@drawable/image_selected"
             android:layout_marginLeft="77dp"
             android:layout_marginTop="48dp"
             android:scaleX="2"
@@ -47,8 +47,6 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/detail_recycler_view_phones"
-            android:clickable="false"
-            android:focusable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/detail_phone_title_text_view"
@@ -69,8 +67,6 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/detail_recycler_view_emails"
-            android:clickable="false"
-            android:focusable="false"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/detail_email_title_text_view"

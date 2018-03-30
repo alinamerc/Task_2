@@ -27,7 +27,11 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailsView
 
 
     public void setData(List<String> emails){
-        this.emails = emails;
+        this.emails.clear();
+        if(emails != null){
+            this.emails.addAll(emails);
+        }
+        notifyDataSetChanged();
     }
 
 

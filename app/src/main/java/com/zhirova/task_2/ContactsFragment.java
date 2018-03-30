@@ -25,7 +25,9 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     private final String TAG = "CONTACTS_FRAGMENT";
     private ContactReaderTask contactReaderTask;
 
-    public ContactsFragmentBinding binding;
+    private ContactsFragmentBinding binding;
+    private List<Contact> contacts;
+    private ContactsAdapter adapter;
 
 
     @Nullable
@@ -41,36 +43,49 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        initAdapter();
+    }
+
+
+    private void initAdapter() {
+        adapter = new ContactsAdapter(getContext());
+        adapter.setClickListener(this);
+        binding.recyclerViewContacts.setAdapter(adapter);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        binding.recyclerViewContacts.setLayoutManager(layoutManager);
     }
 
 
     @Override
     public void onResume() {
         super.onResume();
-        contactReaderTask = new ContactReaderTask(this);
-        contactReaderTask.execute();
+        if (contacts == null){
+            contactReaderTask = new ContactReaderTask(this);
+            contactReaderTask.execute();
+        }
     }
 
 
     @Override
     public void onPause() {
         super.onPause();
-        contactReaderTask.cancel(true);
+        if (contactReaderTask != null){
+            contactReaderTask.cancel(true);
+            contactReaderTask = null;
+        }
     }
 
 
     public void dataBinding(List<Contact> contacts){
+        binding.progressBar.setVisibility(View.GONE);
+        this.contacts = contacts;
+        contactReaderTask = null;
         if (contacts.size() == 0) {
             binding.infoTextView.setVisibility(View.VISIBLE);
-            binding.recyclerViewContacts.setVisibility(View.INVISIBLE);
-
+            binding.recyclerViewContacts.setVisibility(View.GONE);
         } else {
-            LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-            binding.recyclerViewContacts.setLayoutManager(layoutManager);
-
-            ContactsAdapter adapter = new ContactsAdapter(getContext());
-            adapter.setClickListener(this);
-            binding.recyclerViewContacts.setAdapter(adapter);
+            binding.infoTextView.setVisibility(View.GONE);
+            binding.recyclerViewContacts.setVisibility(View.VISIBLE);
             Collections.sort(contacts, (contact1, contact2) -> contact1.getName().compareToIgnoreCase(contact2.getName()));
             adapter.setData(contacts);
         }
@@ -80,8 +95,7 @@ public class ContactsFragment extends Fragment implements ContactsAdapter.ClickL
     @Override
     public void onClick(Contact contact) {
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        DetailFragment curFragment = new DetailFragment();
-        curFragment.contactInfo = contact;
+        DetailFragment curFragment = DetailFragment.create(contact);
 
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.container, curFragment);

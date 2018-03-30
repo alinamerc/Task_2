@@ -7,19 +7,28 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Contact {
+public class Contact implements Parcelable {
 
     private String id;
     private String name;
-    private List<String> phone;
-    private List<String> email;
+    private List<String> phones = new ArrayList<>();
+    private List<String> emails = new ArrayList<>();
 
 
-    public Contact(String id, String name, List<String> phone, List<String> email) {
+    public static final Parcelable.Creator CREATOR = new Parcelable.Creator() {
+        public Contact createFromParcel(Parcel in) {
+            return new Contact(in);
+        }
+
+        public Contact[] newArray(int size) {
+            return new Contact[size];
+        }
+    };
+
+
+    public Contact(String id, String name) {
         this.id = id;
         this.name = name;
-        this.phone = phone;
-        this.email = email;
     }
 
 
@@ -43,23 +52,58 @@ public class Contact {
     }
 
 
-    public List<String> getPhone() {
-        return phone;
+    public List<String> getPhones() {
+        return phones;
     }
 
 
-    public void setPhone(List<String> phone) {
-        this.phone = phone;
+    public void setPhones(List<String> phones) {
+        //this.phones = new ArrayList<>(personStore.getPersons());
+        this.phones.clear();
+        if (phones != null){
+            this.phones.addAll(phones);
+        }
     }
 
 
-    public List<String> getEmail() {
-        return email;
+    public List<String> getEmails() {
+        return emails;
     }
 
 
-    public void setEmail(List<String> email) {
-        this.email = email;
+    public void setEmails(List<String> emails) {
+        this.emails.clear();
+        if (emails != null){
+            this.emails.addAll(emails);
+        }
+    }
+
+
+    public Contact(Parcel in) {
+        this.id = in.readString();
+        this.name = in.readString();
+    }
+
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+    }
+
+
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 
 
