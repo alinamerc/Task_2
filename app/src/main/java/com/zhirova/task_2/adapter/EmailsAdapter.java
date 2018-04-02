@@ -50,7 +50,6 @@ public class EmailsAdapter extends RecyclerView.Adapter<EmailsAdapter.EmailsView
                 clickListenerMail.onClickMail((String) v.getTag());
             }
         });
-
         return holder;
     }
 

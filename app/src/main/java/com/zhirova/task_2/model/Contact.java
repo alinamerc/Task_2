@@ -58,7 +58,6 @@ public class Contact implements Parcelable {
 
 
     public void setPhones(List<String> phones) {
-        //this.phones = new ArrayList<>(personStore.getPersons());
         this.phones.clear();
         if (phones != null){
             this.phones.addAll(phones);

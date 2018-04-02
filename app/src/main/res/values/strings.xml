@@ -3,4 +3,12 @@
     <string name="no_contacts">There is no any contacts!</string>
     <string name="phones">Phones:</string>
     <string name="emails">Emails:</string>
+    <string name="contacts_access_required">Contacts access is required to display the information</string>
+    <string name="call_access_required">Calling access is required to call contact</string>
+    <string name="sms_access_required">Sms access is required to write sms-message</string>
+    <string name="ok">Ok</string>
+    <string name="contacts_permission_denied">Contacts permission request was denied</string>
+    <string name="call_permission_denied">Calling permission request was denied</string>
+    <string name="sms_permission_denied">Sms permission request was denied</string>
+
 </resources>

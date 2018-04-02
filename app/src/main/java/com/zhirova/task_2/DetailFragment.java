@@ -1,15 +1,16 @@
 package com.zhirova.task_2;
 
-import android.app.PendingIntent;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,19 +22,24 @@ import com.zhirova.task_2.model.Contact;
 
 import java.util.List;
 
+import static android.support.v4.content.PermissionChecker.checkSelfPermission;
+
 public class DetailFragment extends Fragment implements PhonesAdapter.ClickListenerOnCall,
         PhonesAdapter.ClickListenerOnSms, EmailsAdapter.ClickListenerOnMail {
 
     private static final String BUNDLE_KEY = "CONTACT_ID";
-    private final String TAG = "DETAIL_FRAGMENT";
+    public final String TAG = "DETAIL_FRAGMENT";
+    private final int PERMISSION_REQUEST_CALL_PHONE = 1;
+    private final int PERMISSION_REQUEST_SEND_SMS = 2;
 
     private TextView nameContact;
     private RecyclerView phonesRecyclerView;
     private RecyclerView emailsRecyclerView;
-
-    private Contact curContact;
     private PhonesAdapter phonesAdapter;
     private EmailsAdapter emailsAdapter;
+
+    private Contact curContact;
+    private String curPhone;
 
 
     public static DetailFragment create(Contact contact){
@@ -62,6 +68,27 @@ public class DetailFragment extends Fragment implements PhonesAdapter.ClickListe
         initAdapters();
         phonesConnection();
         emailsConnection();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == PERMISSION_REQUEST_CALL_PHONE) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                callingToContact();
+            } else {
+                Snackbar.make(getView(), R.string.call_permission_denied, Snackbar.LENGTH_SHORT).show();
+            }
+        }
+
+        if (requestCode == PERMISSION_REQUEST_SEND_SMS) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                writingSms();
+            } else {
+                Snackbar.make(getView(), R.string.sms_permission_denied, Snackbar.LENGTH_SHORT).show();
+            }
+        }
     }
 
 
@@ -103,17 +130,73 @@ public class DetailFragment extends Fragment implements PhonesAdapter.ClickListe
 
     @Override
     public void onClickCall(String phone) {
-        String destination = "tel:" + phone;
+        curPhone = phone;
+        if (checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) ==
+                PackageManager.PERMISSION_GRANTED) {
+            callingToContact();
+        } else {
+            requestCallPermission();
+        }
+    }
+
+
+    public void callingToContact() {
+        String destination = "tel:" + curPhone;
         Intent callIntent = new Intent(Intent.ACTION_CALL, Uri.parse(destination));
         startActivity(callIntent);
     }
 
 
+    private void requestCallPermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.CALL_PHONE)) {
+            Snackbar.make(getView(), R.string.call_access_required,
+                    Snackbar.LENGTH_INDEFINITE).setAction(R.string.ok, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    requestPermissions(new String[]{Manifest.permission.CALL_PHONE},
+                            PERMISSION_REQUEST_CALL_PHONE);
+                }
+            }).show();
+        } else {
+            requestPermissions(new String[]{Manifest.permission.CALL_PHONE},
+                    PERMISSION_REQUEST_CALL_PHONE);
+        }
+    }
+
+
     @Override
     public void onClickSms(String phone) {
-        String destination = "sms:" + phone;
+        curPhone = phone;
+        if (checkSelfPermission(getActivity(), Manifest.permission.SEND_SMS) ==
+                PackageManager.PERMISSION_GRANTED) {
+            writingSms();
+        } else {
+            requestSmsPermission();
+        }
+    }
+
+
+    public void writingSms() {
+        String destination = "sms:" + curPhone;
         Intent smsIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(destination));
         startActivity(smsIntent);
+    }
+
+
+    private void requestSmsPermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.SEND_SMS)) {
+            Snackbar.make(getView(), R.string.sms_access_required,
+                    Snackbar.LENGTH_INDEFINITE).setAction(R.string.ok, new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    requestPermissions(new String[]{Manifest.permission.SEND_SMS},
+                            PERMISSION_REQUEST_SEND_SMS);
+                }
+            }).show();
+        } else {
+            requestPermissions(new String[]{Manifest.permission.SEND_SMS},
+                    PERMISSION_REQUEST_SEND_SMS);
+        }
     }
 
 
